@@ -158,6 +158,7 @@ def binary_search_all(arr, item, order):
         indices.append(right)
         right += 1
 
+    indices.sort()
     return indices  # Возвращаем список индексов
 
 @time_it
