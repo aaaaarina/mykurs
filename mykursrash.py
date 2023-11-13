@@ -213,3 +213,154 @@ def get_positive_integer_input(prompt):
                 print("Неверный ввод. Введите положительное целое число.")
         except ValueError:
             print("Неверный ввод. Введите целое число.")
+
+def main():
+    global A  # Используем глобальную переменную A
+
+    print("Добро пожаловать в программный комплекс!")  # Приветствие
+    input("Нажмите Enter, чтобы продолжить...")  # Ожидание ввода пользователя
+
+    while True:  # Бесконечный цикл для меню
+        print("---------------------------------------------------------")
+        print("1. Сгенерировать массив")
+        print("2. Сортировка выбором")
+        print("3. Сортировка пузырьком")
+        print("4. Сортировка вставкой")
+        print("5. Быстрая сортировка")
+        print("6. Линейный поиск элемента")
+        print("7. Двоичный поиск элемента")
+        print("8. Задать режим табулирования")
+        print("9. Поиск первых 1000 чисел натурального ряда (линейный)")
+        print("10. Поиск первых 1000 чисел натурального ряда (двоичный)")
+        print("0. Выход")
+        print("---------------------------------------------------------")
+
+        choice = input("Выберите опцию: ")  # Ввод выбора пользователя
+
+        sorted_array = sorted(A)  # Создание отсортированной копии массива
+
+        if choice == "0":
+            break  # Выход из цикла при выборе 0
+        elif choice == "1":
+            n = get_positive_integer_input("Введите размер массива: ")  # Ввод размера массива
+            A = generate_array(n)  # Генерация массива
+            print_array(A)  # Вывод массива
+
+            if n <= SMALL_SIZE:  # Если размер массива небольшой
+                for order in [1, 2]:
+                    print("\nСортировка выбором (Порядок: {}):".format("возрастание" if order == 1 else "убывание"))
+                    selection_sort(A.copy(), order)  # Сортировка выбором
+                    print_array(CopyA)  # Вывод отсортированного массива
+
+                    print("\nСортировка пузырьком (Порядок: {}):".format("возрастание" if order == 1 else "убывание"))
+                    bubble_sort(A.copy(), order)  # Сортировка пузырьком
+                    print_array(CopyA)  # Вывод отсортированного массива
+
+                    print("\nСортировка вставкой (Порядок: {}):".format("возрастание" if order == 1 else "убывание"))
+                    insertion_sort(A.copy(), order)  # Сортировка вставкой
+                    print_array(CopyA)  # Вывод отсортированного массива
+
+                    print("\nБыстрая сортировка (Порядок: {}):".format("возрастание" if order == 1 else "убывание"))
+                    quick_sort(A.copy(), order)  # Быстрая сортировка
+                    print_array(CopyA)  # Вывод отсортированного массива
+           
+
+    
+        elif choice == "2":
+            order = get_positive_integer_input("Выберите порядок сортировки (1 - возрастание, 2 - убывание): ") # Ввод порядка сортировки
+            if order == 1 or order == 2:
+                selection_sort(A, order)  # Сортировка выбором
+                print("Отсортированный массив:")
+                print_array(CopyA)  # Вывод отсортированного массива
+            else:
+                print("Некорректный порядок сортировки")  # Вывод сообщения об ошибке
+
+        elif choice == "3":
+            order = get_positive_integer_input("Выберите порядок сортировки (1 - возрастание, 2 - убывание): ")  # Ввод порядка сортировки
+            if order == 1 or order == 2:
+                bubble_sort(A, order)  # Сортировка пузырьком
+                print("Отсортированный массив:")
+                print_array(CopyA)  # Вывод отсортированного массива
+            else:
+                print("Некорректный порядок сортировки")  # Вывод сообщения об ошибке
+
+        elif choice == "4":
+            order = get_positive_integer_input("Выберите порядок сортировки (1 - возрастание, 2 - убывание): ") # Ввод порядка сортировки
+            if order == 1 or order == 2:
+                insertion_sort(A, order)  # Сортировка вставкой
+                print("Отсортированный массив:")
+                print_array(CopyA)  # Вывод отсортированного массива
+            else:
+                print("Некорректный порядок сортировки")  # Вывод сообщения об ошибке
+
+        elif choice == "5":
+            order = get_positive_integer_input("Выберите порядок сортировки (1 - возрастание, 2 - убывание): ") # Ввод порядка сортировки
+            if order == 1 or order == 2:
+                quick_sort(A, order)  # Быстрая сортировка
+                print("Отсортированный массив:")
+                print_array(CopyA)  # Вывод отсортированного массива
+            else:
+                print("Некорректный порядок сортировки")  # Вывод сообщения об ошибке
+
+        elif choice == "6":
+            item = get_positive_integer_input("Введите элемент для поиска: ") # Ввод искомого элемента
+            indices = linear_search(CopyA, item)  # Линейный поиск
+            if indices:
+                print("Элемент", item, "найден в позициях:", ", ".join(map(str, indices)))  # Вывод результатов поиска
+            else:
+                print("Элемент не найден")  # Вывод сообщения об отсутствии элемента
+
+        elif choice == "7":
+            item = get_positive_integer_input("Введите элемент для поиска: ")  # Ввод искомого элемента
+            indices = binary_search_all(CopyA, item, order)  # Двоичный поиск
+            if indices:
+                print("Элемент", item, "найден в позициях:", ", ".join(map(str, indices)))  # Вывод результатов поиска
+            else:
+                print("Элемент не найден")  # Вывод сообщения об отсутствии элемента
+
+        elif choice == "8":
+            # Ввод параметров для табулирования
+            NBegin = get_positive_integer_input("Введите начальное значение N: ")
+            NEnd = get_positive_integer_input("Введите конечное значение N: ")
+            NStep = get_positive_integer_input("Введите шаг для N: ")
+
+            for n in range(NBegin, NEnd + 1, NStep):  # Цикл по значениям N
+                A = generate_array(n)  # Генерация массива
+                print(f"\nМассив с размером {n}:")
+                print_array(A)  # Вывод массива
+                for order in [1, 2]:
+                    print("\nСортировка выбором (Порядок: {}):".format("возрастание" if order == 1 else "убывание"))
+                    selection_sort(A.copy(), order)  # Сортировка выбором
+                    print_array(CopyA)  # Вывод отсортированного массива
+
+                    print("\nСортировка пузырьком (Порядок: {}):".format("возрастание" if order == 1 else "убывание"))
+                    bubble_sort(A.copy(), order)  # Сортировка пузырьком
+                    print_array(CopyA)  # Вывод отсортированного массива
+
+                    print("\nСортировка вставкой (Порядок: {}):".format("возрастание" if order == 1 else "убывание"))
+                    insertion_sort(A.copy(), order)  # Сортировка вставкой
+                    print_array(CopyA)  # Вывод отсортированного массива
+
+                    print("\nБыстрая сортировка (Порядок: {}):".format("возрастание" if order == 1 else "убывание"))
+                    quick_sort(A.copy(), order)  # Быстрая сортировка
+                    print_array(CopyA)  # Вывод отсортированного массива
+
+        elif choice == "9":
+            print("Линейный поиск первых 1000 чисел натурального ряда")
+            found_elements = linear_search_first_n_elements(sorted_array, 1000)  # Линейный поиск первых 1000 элементов
+            
+            print("Элементы:", found_elements)  # Вывод найденных элементов
+
+        elif choice == "10":
+            print("Двоичный поиск первых 1000 чисел натурального ряда")
+
+            found_elements2 = binary_search_first_n_elements(sorted_array)
+            
+            print("Элементы:", found_elements2)  # Вывод найденных элементов
+        
+        else:
+            print("Выберете опцию. Введите цифру от 0 до 10.")
+            
+# Вызов главной функции
+main()
+
