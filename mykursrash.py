@@ -1,5 +1,5 @@
-import random  # Импорт модуля для генерации случайных чисел
-import datetime  # Импорт класса для работы с датой и временем
+import random
+import datetime
 
 # Глобальные переменные
 Lmax = 10000  # Максимальное значение элемента массива
@@ -11,11 +11,10 @@ SMALL_SIZE = 20  # Максимальный размер небольшого м
 
 def time_it(func):   # Функция time_it принимает другую функцию (func) в качестве аргумента и возвращает обертку (wrapper).
     def wrapper(*args, **kwargs): 
-        #  *args позволяет передавать неименованные аргументы в функцию в виде кортежа, а **kwargs позволяет передавать именованные аргументы в виде словаря. Эти конструкции делают функции гибкими и позволяют им принимать разное количество аргументов.
-        start_time = datetime.datetime.now()  # Записываем текущее время перед выполнением целевой функции.
+        start_time = datetime.datetime.now()
         result = func(*args, **kwargs)   # Вызываем целевую функцию (func) с переданными аргументами и получаем её результат.
-        end_time = datetime.datetime.now()    # Записываем текущее время после выполнения целевой функции.
-        execution_time = end_time - start_time  # Рассчитываем время выполнения, вычитая начальное время из конечного времени.
+        end_time = datetime.datetime.now()
+        execution_time = end_time - start_time
         #  Создаем словарь, который сопоставляет английские имена функций с русскими описаниями.
         russian_function_name = {
             'generate_array': 'Генерация массива',
@@ -28,37 +27,35 @@ def time_it(func):   # Функция time_it принимает другую ф
             'linear_search_first_n_elements': 'Функция линейного поиска первых 1000 чисел натурального ряда',
             'binary_search_first_n_elements': 'Функция двоичного поиска первых 1000 чисел натурального ряда',
         }
-        func_name = russian_function_name.get(func.__name__, func.__name__)   # Получаем русское описание функции, если оно есть в словаре, или используем английское имя в противном случае.
-        print(f"{func_name} выполнилась за {execution_time}")  # Выводим наименование функции и время выполнения.
-        return result   # Возвращаем результат выполнения целевой функции.
+        func_name = russian_function_name.get(func.__name__, func.__name__)
+        print(f"{func_name} выполнилась за {execution_time}")
+        return result
     return wrapper  # Возвращаем обертку (wrapper) как результат выполнения функции time_it.
 
 @time_it
 # Функция для генерации массива случайных чисел
 def generate_array(n):
-    # Создаем массив случайных чисел, где n - количество элементов в массиве
-    # и каждый элемент находится в диапазоне от 1 до Lmax включительно
     arr = [random.randint(1, Lmax) for _ in range(n)]
     return arr
 
 # Функция для вывода массива с возможностью ограничения вывода по размеру
 def print_array(arr):
-    if len(arr) <= NLimitPrintMas:  # Если размер массива меньше или равен NLimitPrintMas
+    if len(arr) <= NLimitPrintMas:
         print(arr)
     else:
-        print(arr[:NLimitPrintMas])  # Выводим первые NLimitPrintMas элементов
-        print("...")  # Обозначаем, что массив продолжается
+        print(arr[:NLimitPrintMas])
+        print("...")
 
 @time_it
 # Функция сортировки выбором
 def selection_sort(arr, order):
-    global CopyA, N  # Используем глобальные переменные для N и CopyA
-    N = len(arr)  # Получаем размер массива
-    CopyA = arr.copy()  # Создаем копию массива
+    global CopyA, N
+    N = len(arr)
+    CopyA = arr.copy()
  
-    for j in range(N):  # Проходим по всем элементам массива
+    for j in range(N):
         min_idx = j
-        for i in range(j+1, N):  # Проходим по оставшимся элементам массива
+        for i in range(j+1, N):
             if (order == 1 and CopyA[i] < CopyA[min_idx]) or (order == 2 and CopyA[i] > CopyA[min_idx]):
                 min_idx = i
         CopyA[j], CopyA[min_idx] = CopyA[min_idx], CopyA[j]  # Обмен элементов
@@ -66,36 +63,36 @@ def selection_sort(arr, order):
 @time_it
 # Функция сортировки пузырьком
 def bubble_sort(arr, order):
-    global CopyA, N  # Используем глобальные переменные для N и CopyA
-    N = len(arr)  # Получаем размер массива
-    CopyA = arr.copy()  # Создаем копию массива
+    global CopyA, N
+    N = len(arr)
+    CopyA = arr.copy()
 
-    for i in range(N):  # Проходим по всем элементам массива
-        for j in range(N-i-1):  # Проходим по элементам до N-i-1
+    for i in range(N):
+        for j in range(N-i-1):
             if (order == 1 and CopyA[j] > CopyA[j+1]) or (order == 2 and CopyA[j] < CopyA[j+1]):
                 CopyA[j], CopyA[j+1] = CopyA[j+1], CopyA[j]  # Обмен элементов
 
 @time_it
 # Функция сортировки вставкой
 def insertion_sort(arr, order):
-    global CopyA, N  # Используем глобальные переменные для N и CopyA
-    N = len(arr)  # Получаем размер массива
-    CopyA = arr.copy()  # Создаем копию массива
+    global CopyA, N 
+    N = len(arr) 
+    CopyA = arr.copy()
 
-    for i in range(1, N):  # Проходим по всем элементам массива, начиная со второго
-        key_item = CopyA[i]  # Выбираем текущий элемент
+    for i in range(1, N): 
+        key_item = CopyA[i] 
         j = i - 1
         while j >= 0 and ((order == 1 and CopyA[j] > key_item) or (order == 2 and CopyA[j] < key_item)):
-            CopyA[j+1] = CopyA[j]  # Сдвигаем элементы вправо
+            CopyA[j+1] = CopyA[j]  
             j -= 1
         CopyA[j+1] = key_item  # Вставляем элемент на нужное место
 
 @time_it
 # Функция быстрой сортировки
 def quick_sort(arr, order):
-    global CopyA, N  # Используем глобальные переменные для N и CopyA
-    N = len(arr)  # Получаем размер массива
-    CopyA = arr.copy()  # Создаем копию массива
+    global CopyA, N  
+    N = len(arr) 
+    CopyA = arr.copy() 
 
     # Вспомогательная функция для быстрой сортировки
     def qsort(lst):
@@ -116,16 +113,16 @@ def quick_sort(arr, order):
 @time_it   
 # Функция линейного поиска элемента
 def linear_search(arr, item):
-    indices = []  # Список для хранения индексов
+    indices = [] 
     for i in range(len(arr)):
-        if arr[i] == item:  # Если элемент равен искомому
-            indices.append(i)  # Добавляем индекс в список
-    return indices  # Возвращаем список индексов
+        if arr[i] == item: 
+            indices.append(i)
+    return indices
 
 @time_it
 # Функция двоичного поиска для всех вхождений элемента
 def binary_search_all(arr, item, order):
-    indices = []  # Список для хранения индексов
+    indices = [] 
     low = 0  # Нижняя граница
     high = len(arr) - 1  # Верхняя граница
 
@@ -158,14 +155,14 @@ def binary_search_all(arr, item, order):
         indices.append(right)
         right += 1
 
-    indices.sort()
+    indices.sort() 
     return indices  # Возвращаем список индексов
 
 @time_it
 # Функция линейного поиска первых n элементов
 def linear_search_first_n_elements(arr, n):
-    result = []  # Список для хранения результатов
-    unique_set = set()  # Множество для отслеживания уникальных элементов
+    result = [] 
+    unique_set = set()  
 
     for i in arr:
         if n == 0:  # Если количество найденных элементов достигло n
@@ -215,11 +212,12 @@ def get_positive_integer_input(prompt):
         except ValueError:
             print("Неверный ввод. Введите целое число.")
 
+# Главная функция
 def main():
     global A  # Используем глобальную переменную A
 
-    print("Добро пожаловать в программный комплекс!")  # Приветствие
-    input("Нажмите Enter, чтобы продолжить...")  # Ожидание ввода пользователя
+    print("Добро пожаловать в программный комплекс!")  
+    input("Нажмите Enter, чтобы продолжить...")  
 
     while True:  # Бесконечный цикл для меню
         print("---------------------------------------------------------")
@@ -236,12 +234,12 @@ def main():
         print("0. Выход")
         print("---------------------------------------------------------")
 
-        choice = input("Выберите опцию: ")  # Ввод выбора пользователя
+        choice = input("Выберите опцию: ")  
 
         sorted_array = sorted(A)  # Создание отсортированной копии массива
 
         if choice == "0":
-            break  # Выход из цикла при выборе 0
+            break  
         elif choice == "1":
             n = get_positive_integer_input("Введите размер массива: ")  # Ввод размера массива
             A = generate_array(n)  # Генерация массива
@@ -362,6 +360,4 @@ def main():
         else:
             print("Выберете опцию. Введите цифру от 0 до 10.")
             
-# Вызов главной функции
 main()
-
